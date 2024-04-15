@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect  # imported flask
 from sqlalchemy import create_engine, text
 
-c_str = "mysql://root:password@localhost/database"
+c_str = "mysql://root:MySQL8090@localhost/database"
 engine = create_engine(c_str, echo=True)
 connection = engine.connect()
 app = Flask(__name__)
@@ -12,4 +12,3 @@ def hello():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
