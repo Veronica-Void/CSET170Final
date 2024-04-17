@@ -1,5 +1,52 @@
-{%extends 'base.html'%} <!--this copies the content from a base html with header and footer (header.html)-->
+<style>
+    .body{
+        margin: auto;
+    }
+    .input_field {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
 
+    .input_submit {
+      width: 100%;
+      background-color: #51919f;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .input_submit:hover {
+      background-color: #85c3cf;
+    }
+</style>
+
+
+{%extends 'base.html'%}
 {% block body %}
-    <h1>REGISTERRR INFOOOO HERE</h1>
+<div class="body">
+
+    <form action="/register" method="POST">
+
+        <input type="tel" name="SSN" placeholder="SSN (ex:111-11-1111)" pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}" class="input_field" required> <br>
+        <input type="text" name="F_NAME" placeholder="Type First Name Here" class="input_field" required> <br>
+        <input type="text" name="L_NAME" placeholder="Type Last Name Here" class="input_field" required> <br>
+        <input type="address" name="ADDRESS" placeholder="Enter Address" class="input_field"> <br>
+        <input type="tel" name="PHONE" placeholder="Phone (ex:123-456-7899)" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="input_field"> <br>
+        <input type="text" name="USERNAME" placeholder="Enter Username" class="input_field" required> <br>
+        <input type="password" name="PW" placeholder="Enter Password" class="input_field" required> <br>
+        <input type="submit" value="Register" class="input_submit">
+        
+    </form>
+
+</div>
+
+
 {% endblock %}
