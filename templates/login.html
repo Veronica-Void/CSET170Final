@@ -1,10 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<style>
+    .body{
+        margin: auto;
+    }
+    .input_field {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
 
-</body>
-</html>
+    .input_submit {
+      width: 100%;
+      background-color: #51919f;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .input_submit:hover {
+      background-color: #83cedd;
+    }
+</style>
+{%extends 'base.html'%} 
+{% block body %}
+
+<div class="body">
+  
+  <form action="/login" method="POST">
+
+    <input type="text" name="USERNAME" placeholder="Enter Username" class="input_field"> <br>
+    <input type="text" name="PW" placeholder="Enter Password" class="input_field"> <br>
+    <input type="submit" value="Login" class="input_submit">
+
+</form>
+
+</div>
+
+{% if loginError%}
+  <p>{{loginError}}</p>
+
+{%endif%}
+
+
+{% endblock %}
