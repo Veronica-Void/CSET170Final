@@ -58,22 +58,23 @@
     }
 </style>
 
-{% extends 'base.html'%}}
+{% extends 'base.html' %}
 
 {% block body %}
-    {% for i in account%}
+
+    {% for i in userAccount%}
         <ul>
-            <li>SSN: <a href="/userAccount/{{i[0]}}">{{i[0]}}</a></li>
+            <a href="/transfer">Transfer from Account</a><br><a href="/userAccountAdd/{{i[9]}}">Add funds to Account</a>
+            <h2 style = 'text-align: center'> <li>{{i[2]}} {{i[3]}} (SSN: {{i[0]}})</li></h2>
+            <ul>
+                <li>USERNAME: {{i[4]}}</li>
+                <li>PASSWORD: {{i[5]}}</li>
+                <li>ADDRESS: {{i[6]}}</li>
+                <li>PHONE: {{i[7]}}</li>
+                <br><br>
+
+            </ul>
         </ul>
     {% endfor %}
 
 {% endblock %}
-
-
-
-
-
-
-
-
-

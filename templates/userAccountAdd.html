@@ -58,22 +58,25 @@
     }
 </style>
 
-{% extends 'base.html'%}}
+{% extends 'base.html' %}
 
 {% block body %}
-    {% for i in account%}
-        <ul>
-            <li>SSN: <a href="/userAccount/{{i[0]}}">{{i[0]}}</a></li>
-        </ul>
-    {% endfor %}
 
-{% endblock %}
+{% for i in userAccountAdd %}
+    <p>BANK ACCOUNT NUMBER: {{i[9]}}</p>
+    <p>Balance: ${{balance}}</p>
 
+{% endfor %}
 
 
-
-
-
-
-
-
+    <div class="body">
+        <form action="/userAccountAdd/{{userAccountAdd[0][9]}}" method='POST'> <!-- double check method as get in case program does work.-->
+            <p style="text-align: center">Insert information to Add to your Account:</p>
+            <input style="text-align: center" type="text" name="card" placeholder="Card Number" class="input_field"> <br>
+            <input style="text-align: center" type="number" name="pin" placeholder="3 digit pin on back of card" class="input_field"> <br>
+            <input style="text-align: center" type="text" name="expire" placeholder="Expiration Date" class="input_field"> <br>
+            <input style="text-align: center" type="text" name="ADDING" placeholder="Add amount to Balance" class="input_field"> <br>
+            <input type="submit" value="Submit" class="input_submit">
+        </form>
+    </div>
+{%endblock%}

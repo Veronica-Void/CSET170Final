@@ -1,10 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<style>
+    .body{
+        margin: auto;
+    }
+    .input_field {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
 
-</body>
-</html>
+    .input_submit {
+        width: 100%;
+        background-color: #51919f;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .input_submit:hover {
+        background-color: #48828e;
+    }
+</style>
+
+{% extends 'base.html'%}}
+
+{% block body %}
+    <div class="body">
+        <form action="/admin" method='POST'> <!-- double check method as get in case program does work.-->
+            <p style="text-align: center">Insert SSN or Status of Account to view all account that meet the criteria:</p>
+            <input style="text-align: center" type="text" name="SSN" placeholder="Social Security Number:" class="input_field"> <br>
+            <input style="text-align: center" type="text" name="STATUS" placeholder="Status of Account" class="input_field"> <br>
+            <input type="submit" value="Submit" class="input_submit">
+        </form>
+    </div>
+
+    {% for i in admin%}
+        <ul>
+            <li>SSN: <a href="/AdminAcc/{{i[0]}}">{{i[0]}}</a></li>
+            <ul>
+                <li>FIRST NAME: {{i[2]}}</li>
+                <li>LAST NAME: {{i[3]}}</li>
+                <li>USERNAME: {{i[4]}}</li>
+                <li>ADDRESS: {{i[6]}}</li>
+                <li>PHONE: {{i[7]}}</li>
+                <li>STATUS: {{i[8]}}</li>
+            </ul>
+        </ul>
+    {% endfor %}
+
+{% endblock %}
