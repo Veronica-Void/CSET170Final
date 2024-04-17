@@ -74,10 +74,10 @@ def allowEntry():
     if userInputPassword == 'Admin01!':
         return redirect(url_for('showAdminHome'))
     if hashedUserInputPassword == checkUserExists[0][5]: 
-        # check if account is admin or user
+        # check if account is approved, if not go back to login
         userStatus = checkUserExists[0][-1]
         if userStatus == 'Approved':
-            return redirect(url_for('displayAccount'))
+            return redirect(url_for('showAccount'))
         else:
             return redirect(url_for('showlogin'))
     else:
@@ -91,53 +91,80 @@ def allowEntry():
 
 
 
-
-# ------------------------------------------------ Start of Customer ------------------------------------------------------------
-
-# --- Start of Admin --
-
-# autogenerate acc number upon approval
-
-@app.route('/admin')
-def showAdminHome():
-    return render_template('admin.html')
-# ---- End of Admin ---
-
-
-
-
-
-
-
-# ------------------------------------------------ End of Customer ------------------------------------------------------------
-
-
-
-
 # ------------------------------------------------ Start of Accounts ------------------------------------------------------------
 
-# user can check bank account number and all their personal info on accounts page
-# 
 
 
-@app.route('/account')
-def displayAccount():
-    return render_template('account.html')
-
-# grab user from session, check if admin. if not, redirect to where they should be.
 
 
-# banking functionality
 
-    # def banking():
-    #     cardNum= 
-    #     amt= 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 # ------------------------------------------------ End of Accounts ------------------------------------------------------------
+
+# ------------------------------------------------ Start of Admin ------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------ End of Admin ------------------------------------------------------------
+
 
 
 
