@@ -1,0 +1,57 @@
+<style>
+    .body{
+        margin: auto;
+    }
+    .input_field {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .input_submit {
+        width: 100%;
+        background-color: #51919f;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .input_submit:hover {
+        background-color: #48828e;
+    }
+</style>
+
+{% extends 'base.html'%}
+
+{% block body %}
+
+
+    {% for i in AdminAcc %}
+        <ul>
+            <h2 style = 'text-align: center'> <li>{{i[2]}} {{i[3]}} (SSN: {{i[0]}})</li></h2>
+            <ul>
+                <li>STATUS: {{i[8]}}</li>
+                {% if i[8] == "Approved" %}
+                    <li>ACC #: {{userInfo[0][0]}}</li>  <!--admin can view acc# and balance through another variable and an if statement -->
+                    <li>BALANCE: ${{userInfo[0][1]}}</li>
+                {% endif %}
+
+            </ul>
+        </ul>
+    {% endfor %}
+<div class="body">
+            <form action="/AdminAcc/{{AdminAcc[0][0]}}" method="POST">
+                <h1>Update Status:</h1>
+                <input type="text" name="STATUS" class="input_field" placeholder="Status of Account"> <br>
+                <input type="submit" value="CHANGE STATUS" class="input_submit">
+            </form>
+</div>
+
+{% endblock %}
