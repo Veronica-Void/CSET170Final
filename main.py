@@ -3,10 +3,11 @@ from sqlalchemy import create_engine, text
 # from werkzeug.security import check_password_hash, generate_password_hash #research werkzeug
 import hashlib
 
+app = Flask(__name__)
 c_str = "mysql://root:MySQL8090@localhost/bank_app"
 engine = create_engine(c_str, echo=True)
 connection = engine.connect()
-app = Flask(__name__)
+app.secret_key = 'WOMP'
 
 
 @app.route('/')
@@ -50,32 +51,38 @@ def registerUser():
 
 @app.route('/login', methods=['GET'])
 def showlogin():
-    return render_template('login.html')
+    # takes out 'login error' value from the session and adds it to the 'var' variable
+    if 'loginError' in session:
+        var = session.pop('loginError')
+    else:
+        # setting an empty variable because you can't pass a null
+        var = ""
+    return render_template('login.html', loginError=var)
 
 # function below determines the user and redirects them to the pages that they should see
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/login', methods=['POST'])
 def allowEntry():
     userInputUsername = request.form.get('USERNAME') 
     userInputPassword = request.form.get('PW')
     hashedUserInputPassword = hashpw(userInputPassword).hexdigest
     checkUserExists = connection.execute(text(f'SELECT * FROM CUSTOMER WHERE USERNAME = \'{userInputUsername}\'')).all()
+    print(checkUserExists)
     # checks if un and pw exists
     if len(checkUserExists) < 1: 
         session['loginError'] = 'Doesnt exist'
         return redirect(url_for('showlogin'))
-    elif hashedUserInputPassword == len(checkUserExists): 
+    if userInputPassword == 'Admin01!':
+        return redirect(url_for('showAdminHome'))
+    if hashedUserInputPassword == checkUserExists[0][5]: 
         # check if account is admin or user
-        userType = checkUserExists[1]
-        if userType == 'Admin':
-            return redirect(url_for('showAdminHome'))
+        userStatus = checkUserExists[0][-1]
+        if userStatus == 'Approved':
+            return redirect(url_for('displayAccount'))
         else:
-            # check if account status (pending or approved)
-            userStatus = checkUserExists[-1]
-            if userStatus == 'Approved':
-                return redirect(url_for('displayAccount'))
-            else:
-                return redirect(url_for('showlogin'))
-    return redirect(url_for('hello'))
+            return redirect(url_for('showlogin'))
+    else:
+        return redirect(url_for('showlogin'))
+ 
 
 
 
