@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, text
 import hashlib
 
 app = Flask(__name__)
-c_str = "mysql://root:MySQL8090@localhost/bank_app"
+c_str = "mysql://root:MySQL@localhost/BANK_APP"
 engine = create_engine(c_str, echo=True)
 connection = engine.connect()
 app.secret_key = 'WOMP'
@@ -76,7 +76,7 @@ def allowEntry():
         # check if account is admin or user
         userStatus = checkUserExists[0][-1]
         if userStatus == 'Approved':
-            return redirect(url_for('displayAccount'))
+            return redirect(url_for('showAccount'))
         else:
             return redirect(url_for('showlogin'))
     else:
@@ -120,12 +120,28 @@ def addingtoAccount(ACC_NUM):
     return render_template('userAccountAdd.html', userAccountAdd=accountAdd, balance=accountAdd[0][10])
 
 
+@app.route("/transfer/<ACC_NUM>", methods=['POST', 'GET'])
+def subtractFromAccount(ACC_NUM):
+    accountTransfer = connection.execute(text(f"SELECT * FROM CUSTOMER NATURAL JOIN ACCOUNT WHERE ACC_NUM = {ACC_NUM}")).all()
+    if request.method == "POST":
+        subtract = request.form.get('SUBTRACT')
+        if int(subtract) > accountTransfer[0][10]:
+            raise ValueError("Insufficient funds!")
+        else:
+            subtractToBalance = connection.execute(text(f"UPDATE ACCOUNT SET BALANCE = BALANCE - (:SUBTRACT) WHERE ACC_NUM = {ACC_NUM}"), request.form)
+            addingToOtherAcc = connection.execute(text(f"UPDATE ACCOUNT SET BALANCE = BALANCE + (:SUBTRACT) WHERE ACC_NUM = (:toACC)"), request.form)
+            accountTransfer = connection.execute(text(f"SELECT * FROM CUSTOMER NATURAL JOIN ACCOUNT WHERE ACC_NUM = {ACC_NUM}")).all()
+            print(subtractToBalance)
+            print(addingToOtherAcc)
+            print(accountTransfer)
+        return render_template('transfer.html', transfer=accountTransfer, balance=accountTransfer[0][10])
+    return render_template('transfer.html', transfer=accountTransfer, balance=accountTransfer[0][10])
+
+
 # ------------------------------------------------ End of Accounts ------------------------------------------------------------
 
 
 # ------------------------------------------------ Start of Admin ------------------------------------------------------------
-
-
 
 @app.route('/admin', methods=['GET'])
 def showAdminHome():
@@ -143,7 +159,7 @@ def displayUsers():
 @app.route('/admin', methods=['POST'])
 def sUsers():  # table
     searchUsers = connection.execute(
-        text(f'SELECT * FROM CUSTOMER WHERE TYPE = "User" AND SSN = (:SSN) OR STATUS = (:STATUS)'), request.form)
+        text(f'SELECT * FROM CUSTOMER WHERE TYPE = "User", SSN = (:SSN) OR STATUS = (:STATUS)'), request.form)
     connection.commit()
     return render_template('admin.html', admin=searchUsers)
 
