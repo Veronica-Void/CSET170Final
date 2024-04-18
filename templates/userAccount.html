@@ -64,15 +64,16 @@
 
     {% for i in userAccount%}
         <ul>
-            <a href="/transfer">Transfer from Account</a><br><a href="/userAccountAdd/{{i[9]}}">Add funds to Account</a>
+            <a href="/transfer/{{i[9]}}">Transfer from Account</a><br><a href="/userAccountAdd/{{i[9]}}">Add funds to Account</a>
             <h2 style = 'text-align: center'> <li>{{i[2]}} {{i[3]}} (SSN: {{i[0]}})</li></h2>
             <ul>
                 <li>USERNAME: {{i[4]}}</li>
-                <li>PASSWORD: {{i[5]}}</li>
+<!--                <li>PASSWORD: {{i[5]}}</li>-->
                 <li>ADDRESS: {{i[6]}}</li>
                 <li>PHONE: {{i[7]}}</li>
                 <br><br>
-
+                <li>ACCOUNT NUMBER: {{i[9]}}</li>
+                <li>BALANCE: ${{i[10]}}</li>
             </ul>
         </ul>
     {% endfor %}
